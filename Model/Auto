@@ -1,0 +1,23 @@
+package com.example.Concesionaria.Model;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import java.util.List;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+public class Autos {
+
+    @Id
+    private Integer id;
+    private String brand;
+    private String model;
+    private String version;
+    @ManyToMany
+    @JoinTable(name = "dealership_autos", joinColumns = @JoinColumn(name = "Autos_id"), inverseJoinColumns = @JoinColumn(name = "dealership_id"))
+    private List<Dealership>dealership;
+}
