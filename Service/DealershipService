@@ -1,0 +1,66 @@
+package com.example.Concesionaria.Service;
+
+import com.example.Concesionaria.Model.Dealership;
+import com.example.Concesionaria.Repository.AutoRepository;
+import com.example.Concesionaria.Repository.DealershipRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.modelmapper.ModelMapper;
+import java.util.List;
+
+import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+
+@Service
+public class DealershipService {
+
+    @Autowired
+    private DealershipRepository dr;
+    @Autowired
+    private AutoRepository ar;
+
+    private final ModelMapper mm = new ModelMapper();
+
+    public DealershipService(DealershipRepository dr, AutoRepository ar) {
+        this.dr = dr;
+        this.ar = ar;
+    }
+
+    public List<Dealership> getAll() {
+        return dr.findAll();
+    }
+
+    public ResponseEntity add(Dealership d) {
+        try {
+            dr.save(d);
+            return ResponseEntity.status(CREATED).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    public ResponseEntity update(Integer id, Dealership d) {
+        try {
+            Dealership ds = dr.findById(id).orElseThrow(() -> new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Dealership not found!"));
+            d.setName(d.getName());
+            d.setAutos(d.getAutos());
+            dr.save(d);
+            return ResponseEntity.status(OK).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    public ResponseEntity delete(Integer id) {
+        try {
+            dr.deleteById(id);
+            return ResponseEntity.status(OK).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+}
