@@ -1,0 +1,39 @@
+package com.example.Concesionaria.Controller;
+
+import com.example.Concesionaria.Model.Dealership;
+import com.example.Concesionaria.Service.DealershipService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/dealership")
+public class DealershipController {
+
+    @Autowired
+    private DealershipService ds;
+
+    @GetMapping("")
+    public List<Dealership> getAll() {
+        return ds.getAll();
+    }
+
+    @PostMapping("")
+    public ResponseEntity add(@RequestBody Dealership d) {
+        return ds.add(d);
+    }
+
+    @PostMapping("/{id}/update")
+    public ResponseEntity update(@PathVariable Integer id, @RequestBody Dealership d) {
+        return ds.update(id, d);
+    }
+
+    @PostMapping("/{id}/delete")
+    public ResponseEntity delete(@PathVariable Integer id) {
+        return ds.delete(id);
+    }
+
+
+}
