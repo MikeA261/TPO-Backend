@@ -1,0 +1,44 @@
+package com.example.Concesionaria.Service;
+
+
+import com.example.Concesionaria.Model.Autos;
+import com.example.Concesionaria.Repository.AutoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+
+import static org.hibernate.grammars.hql.HqlLexer.*;
+import static org.springframework.http.HttpStatus.*;
+
+@Service
+public class AutosService {
+
+    @Autowired
+    private AutoRepository ar;
+
+    public AutosService(AutoRepository ar){
+        this.ar = ar;
+    }
+
+    public List<Autos> getAll(){
+        return ar.findAll();
+    }
+
+    public ResponseEntity add(Autos a){
+        ar.save(a);
+        return ResponseEntity.status(CREATED).build();
+    }
+
+    public ResponseEntity delete(Integer id){
+        ar.deleteById(id);
+        return ResponseEntity.status(ON).build();
+    }
+
+    public ResponseEntity update(Integer id, Autos a){
+        ar.updateById(id,a);
+        return ResponseEntity.status(ON).build();
+    }
+}
