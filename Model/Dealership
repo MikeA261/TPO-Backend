@@ -1,0 +1,26 @@
+package com.example.Concesionaria.Model;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import java.util.List;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+public class Dealership {
+    @Id
+    private Integer id;
+    private String name;
+    private String city;
+    private String Street;
+    private Integer number;
+    @ManyToMany(mappedBy = "dealership")
+    @JsonIgnore
+    private List<Autos> autos;
+}
