@@ -1,0 +1,40 @@
+package com.example.Concesionaria.Controller;
+
+
+import com.example.Concesionaria.Model.Autos;
+import com.example.Concesionaria.Service.AutosService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping
+public class AutoController {
+
+    @Autowired
+    private AutosService as;
+
+    @GetMapping
+    public List<Autos> getAll(){
+        return as.getAll();
+    }
+
+    @PostMapping("")
+    public ResponseEntity add(@RequestBody Autos a) {
+        return as.add(a);
+    }
+
+    @PostMapping("/{id}/update")
+    public ResponseEntity update(@PathVariable Integer id, @RequestBody Autos a) {
+        return as.update(id,a);
+    }
+
+    @PostMapping("/{id}/delete")
+    public ResponseEntity delete(@PathVariable Integer id) {
+        return as.delete(id);
+    }
+
+}
+
